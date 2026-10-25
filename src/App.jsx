@@ -1,12 +1,15 @@
 import { useState } from "react";
-import "./App.css";
+import Board from "./components/Board";
+import { generateRandomBoard } from "./features/generateRandomBoard";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const initialBoard = generateRandomBoard(45);
 
   return (
     <>
-      <div></div>
+      <div>
+        <Board initialBoard={initialBoard} />
+      </div>
     </>
   );
 }
