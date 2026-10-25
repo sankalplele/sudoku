@@ -1,50 +1,63 @@
-// generation of a 9*9 board
-// simple logic:
-// 1. think of each 9-box row
-// 2. for each row: generate a random number between 1-9 to decide how many boxes in this row will be pre-filled, let us call this 'x'
-// 3. generate 'x' numbers in the range 1-9
-// 4. for each such number generate a random position index in the range 0-8
-// 5. while (loop) this number exists in the current column ( given by random position index ) generate another position index
-// 6. if the loop breaks, add this number in the board at the current row and generated random index
-// 7. repeat this for all the 'x' numbers
-// 8. repeat this for all the 9 rows
+import { boardSize } from "../utils/constants";
 
-import { boardSize, maxPreFilledInRow } from "../utils/constants.js";
+const BOARD_SIZE = 9;
+const BOX_SIZE = 3;
+let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-const generateRandomBoard = () => {
-  let board = [];
+const isValid = (board, row, col, num) => {
+  for (let i = 0; i < BOARD_SIZE; i++) {
+    if (board[row][i] === num || board[i][col] === num) return false;
+  }
 
-  for (let k = 0; k < boardSize; k++) {
-    board.push([]);
-    for (let l = 1; l <= boardSize; l++) {
-      board[k].push(0);
+  const boxStartRow = Math.floor(row / BOX_SIZE) * BOX_SIZE;
+  const boxStartCol = Math.floor(col / BOX_SIZE) * BOX_SIZE;
+
+  for (let i = 0; i < BOX_SIZE; i++) {
+    for (let j = 0; j < BOX_SIZE; j++) {
+      if (board[boxStartRow + i][boxStartCol + j] === num) return false;
     }
   }
 
-  for (let row = 0; row < boardSize; row++) {
-    const preFilledCount = Math.ceil(maxPreFilledInRow * Math.random());
-    for (let j = 1; j <= preFilledCount; j++) {
-      let randomNumber = Math.ceil(boardSize * Math.random());
-      // to ensure this number is not in the row
-      while (board[row].includes(randomNumber))
-        randomNumber = Math.ceil(boardSize * Math.random());
+  return true;
+};
 
-      let randomPosition = Math.floor(boardSize * Math.random());
-      // to ensure this number is not in this column given by this position
-      while (isInColumn(board, randomNumber, row, randomPosition))
-        randomPosition = Math.floor(boardSize * Math.random());
-      board[row][randomPosition] = randomNumber;
+const fillBoard = (board, row, col) => {
+  if (col == BOARD_SIZE) return fillBoard(board, row + 1, 0);
+  if (row == BOARD_SIZE) return true;
+
+  for (const num of arr) {
+    if (isValid(board, row, col, num)) {
+      board[row][col] = num;
+      if (fillBoard(board, row, col + 1)) return true;
+      board[row][col] = 0;
+    }
+  }
+
+  return false;
+};
+
+export const generateRandomBoard = (clues) => {
+  const board = [];
+  for (let row = 0; row < BOARD_SIZE; row++) {
+    board.push(Array(BOARD_SIZE).fill(0));
+    for (let col = 0; col < BOARD_SIZE; col++) {
+      board[row][col] = 0;
+    }
+  }
+
+  fillBoard(board, 0, 0);
+
+  let cellsToRemove = BOARD_SIZE * BOARD_SIZE - clues;
+
+  while (cellsToRemove > 0) {
+    const row = Math.floor(Math.random() * BOARD_SIZE);
+    const col = Math.floor(Math.random() * BOARD_SIZE);
+
+    if (board[row][col] !== 0) {
+      board[row][col] = 0;
+      cellsToRemove--;
     }
   }
 
   return board;
 };
-
-const isInColumn = (board, number, row, column) => {
-  for (let currentRow = 0; currentRow < row; currentRow++) {
-    if (board[currentRow][column] == number) return true;
-  }
-  return false;
-};
-
-console.log(generateRandomBoard());
