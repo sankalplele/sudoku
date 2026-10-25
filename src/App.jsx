@@ -1,9 +1,9 @@
 import { useState } from "react";
 import Board from "./components/Board";
-import { generateRandomBoard } from "./features/generateRandomBoard";
+import { generateRandomBoard } from "./features/board/generateRandomBoard";
 
 function App() {
-  const initialBoard = generateRandomBoard(45);
+  const initialBoard = generateRandomBoard(30);
 
   return (
     <>

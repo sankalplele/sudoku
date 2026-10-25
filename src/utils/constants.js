@@ -1,4 +1,4 @@
-const boardSize = 9;
-const maxPreFilledInRow = 9;
+const BOARD_SIZE = 9;
+const BOX_SIZE = 3;
 
-export { boardSize, maxPreFilledInRow };
+export { BOARD_SIZE, BOX_SIZE };
