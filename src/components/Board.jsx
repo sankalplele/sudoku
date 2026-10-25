@@ -13,13 +13,17 @@ function Board({ initialBoard }) {
           gridTemplateRows: "repeat(9, 1fr)",
           justifyContent: "center",
           border: "3px solid black",
-          width: "200px",
-          height: "200px",
+          width: "270px",
+          height: "270px",
         }}
       >
         {board.map((row, rowIndex) => {
           return row.map((box, boxIndex) => (
-            <Box value={box} key={boxIndex + "" + rowIndex} />
+            <Box
+              value={box}
+              key={boxIndex + "" + rowIndex}
+              isPreFilled={initialBoard[rowIndex][boxIndex] != 0}
+            />
           ));
         })}
       </div>
