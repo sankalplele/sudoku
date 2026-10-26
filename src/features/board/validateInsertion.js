@@ -1,6 +1,7 @@
 import { BOARD_SIZE, BOX_SIZE } from "../../utils/constants";
 
 export const isValid = (board, row, col, num) => {
+  if (num == 0) return true;
   for (let i = 0; i < BOARD_SIZE; i++) {
     if (board[row][i] === num || board[i][col] === num) return false;
   }

@@ -1,6 +1,25 @@
-import React from "react";
+import { useState } from "react";
 
-function Box({ value, isPreFilled }) {
+function Box({
+  value,
+  row,
+  col,
+  isEditing,
+  isBoardEditing,
+  setIsBoardEditing,
+  count,
+  setCount,
+  onSelect,
+  isPreFilled,
+}) {
+  const handleBoxClick = () => {
+    if ((!isBoardEditing && !isPreFilled) || isEditing) {
+      setCount((prevCount) => prevCount + 1);
+      onSelect(row, col);
+      setIsBoardEditing(true);
+    }
+  };
+
   return (
     <>
       <div
@@ -8,12 +27,18 @@ function Box({ value, isPreFilled }) {
           border: "1px solid blue",
           textAlign: "center",
           alignContent: "center",
-          cursor: `${isPreFilled ? "auto" : "pointer"}`,
+          cursor: `${(!isBoardEditing && !isPreFilled) || isEditing ? "pointer" : "auto"}`,
           fontWeight: `${isPreFilled ? "bold" : "auto"}`,
-          backgroundColor: `${isPreFilled ? "rgb(220, 240, 255)" : "auto"}`,
+          backgroundColor: isEditing
+            ? "rgb(0, 240, 255)"
+            : isPreFilled
+              ? "rgb(220, 240, 255)"
+              : "transparent",
         }}
+        onClick={handleBoxClick}
       >
-        {value != 0 ? value : ""}
+        {!isEditing && value != 0 ? value : ""}
+        {isEditing ? (count % 10 != 0 ? count % 10 : "") : ""}
       </div>
     </>
   );
