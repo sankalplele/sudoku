@@ -13,7 +13,6 @@ const fillBoard = (board, row, col) => {
   for (const num of arr) {
     if (isValid(board, row, col, num)) {
       board[row][col] = num;
-      console.log(row, col, num);
       if (fillBoard(board, row, col + 1)) return true;
       board[row][col] = 0;
     }

@@ -28,10 +28,10 @@ function Box({
     <>
       <div
         style={{
-          borderTop: `${hasType && (type === "tl" || type === "t" || type === "tr") ? "2px solid red" : "1px solid black"}`,
-          borderRight: `${hasType && (type === "tr" || type === "r" || type === "br") ? "2px solid red" : "1px solid black"}`,
-          borderBottom: `${hasType && (type === "br" || type === "b" || type === "bl") ? "2px solid red" : "1px solid black"}`,
-          borderLeft: `${hasType && (type === "bl" || type === "l" || type === "tl") ? "2px solid red" : "1px solid black"}`,
+          borderTop: `${hasType && (type === "tl" || type === "t" || type === "tr") ? "2px solid blue" : "1px solid black"}`,
+          borderRight: `${hasType && (type === "tr" || type === "r" || type === "br") ? "2px solid blue" : "1px solid black"}`,
+          borderBottom: `${hasType && (type === "br" || type === "b" || type === "bl") ? "2px solid blue" : "1px solid black"}`,
+          borderLeft: `${hasType && (type === "bl" || type === "l" || type === "tl") ? "2px solid blue" : "1px solid black"}`,
           textAlign: "center",
           alignContent: "center",
           cursor: `${(!isBoardEditing && !isPreFilled) || isEditing ? "pointer" : "auto"}`,

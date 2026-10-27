@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Box from "./Box";
 import { isValid } from "../features/board/validateInsertion";
 import { BOARD_SIZE, BOX_SIZE } from "../utils/constants";
@@ -40,6 +40,20 @@ function Board({ initialBoard, blockTraversal }) {
     setIsBoardEditing(false);
   };
 
+  useEffect(() => {
+    if (!editingCell) return;
+
+    const handleKeyDown = (event) => {
+      if (event.key === "Enter") {
+        handleSubmit();
+      } else if (event.key === "Escape") {
+        handleAbort();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [editingCell, handleSubmit, handleAbort]);
   return (
     <>
       <div
@@ -48,7 +62,7 @@ function Board({ initialBoard, blockTraversal }) {
           gridTemplateColumns: `repeat(${BOARD_SIZE}, 1fr)`,
           gridTemplateRows: `repeat(${BOARD_SIZE}, 1fr)`,
           justifyContent: "center",
-          border: "3px solid black",
+          border: "3px solid blue",
           aspectRatio: "1",
           width: "500px",
         }}
