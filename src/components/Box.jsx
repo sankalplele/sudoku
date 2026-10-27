@@ -9,6 +9,7 @@ function Box({
   setIsBoardEditing,
   count,
   setCount,
+  typeObj,
   onSelect,
   isPreFilled,
 }) {
@@ -20,11 +21,17 @@ function Box({
     }
   };
 
+  const type = typeObj?.type;
+  const hasType = type ? true : false;
+
   return (
     <>
       <div
         style={{
-          border: "1px solid blue",
+          borderTop: `${hasType && (type === "tl" || type === "t" || type === "tr") ? "2px solid red" : "1px solid black"}`,
+          borderRight: `${hasType && (type === "tr" || type === "r" || type === "br") ? "2px solid red" : "1px solid black"}`,
+          borderBottom: `${hasType && (type === "br" || type === "b" || type === "bl") ? "2px solid red" : "1px solid black"}`,
+          borderLeft: `${hasType && (type === "bl" || type === "l" || type === "tl") ? "2px solid red" : "1px solid black"}`,
           textAlign: "center",
           alignContent: "center",
           cursor: `${(!isBoardEditing && !isPreFilled) || isEditing ? "pointer" : "auto"}`,

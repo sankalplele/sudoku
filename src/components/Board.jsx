@@ -1,8 +1,9 @@
 import { useState } from "react";
 import Box from "./Box";
 import { isValid } from "../features/board/validateInsertion";
+import { BOARD_SIZE, BOX_SIZE } from "../utils/constants";
 
-function Board({ initialBoard }) {
+function Board({ initialBoard, blockTraversal }) {
   const [board, setBoard] = useState(initialBoard);
   const [isBoardEditing, setIsBoardEditing] = useState(false);
   const [editingCell, setEditingCell] = useState(null);
@@ -44,12 +45,12 @@ function Board({ initialBoard }) {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(9, 1fr)",
-          gridTemplateRows: "repeat(9, 1fr)",
+          gridTemplateColumns: `repeat(${BOARD_SIZE}, 1fr)`,
+          gridTemplateRows: `repeat(${BOARD_SIZE}, 1fr)`,
           justifyContent: "center",
           border: "3px solid black",
-          width: "270px",
-          height: "270px",
+          aspectRatio: "1",
+          width: "500px",
         }}
       >
         {board.map((row, rowIndex) => {
@@ -61,6 +62,10 @@ function Board({ initialBoard }) {
               isEditing={
                 editingCell?.row === rowIndex && editingCell?.col === boxIndex
               }
+              typeObj={blockTraversal[
+                BOX_SIZE * Math.floor(rowIndex / BOX_SIZE) +
+                  Math.floor(boxIndex / BOX_SIZE)
+              ].find((obj) => obj.row === rowIndex && obj.col === boxIndex)}
               isBoardEditing={isBoardEditing}
               setIsBoardEditing={setIsBoardEditing}
               count={count}
