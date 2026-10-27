@@ -1,4 +1,4 @@
-import { BOARD_SIZE, BOX_SIZE } from "../../utils/constants";
+import { BOARD_SIZE, BOX_SIZE } from "../../utils/constants.js";
 
 export const isValid = (board, row, col, num) => {
   if (num == 0) return true;

@@ -1,6 +1,10 @@
-import { BOARD_SIZE, BOX_SIZE } from "../../utils/constants";
-import { isValid } from "./validateInsertion";
-let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+import { BOARD_SIZE, BOX_SIZE } from "../../utils/constants.js";
+import { isValid } from "./validateInsertion.js";
+let arr = [];
+
+for (let i = 1; i <= BOARD_SIZE; i++) {
+  arr.push(i);
+}
 
 const fillBoard = (board, row, col) => {
   if (col == BOARD_SIZE) return fillBoard(board, row + 1, 0);
@@ -9,6 +13,7 @@ const fillBoard = (board, row, col) => {
   for (const num of arr) {
     if (isValid(board, row, col, num)) {
       board[row][col] = num;
+      console.log(row, col, num);
       if (fillBoard(board, row, col + 1)) return true;
       board[row][col] = 0;
     }
